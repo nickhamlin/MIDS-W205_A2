@@ -53,12 +53,9 @@ the histograms and allows us a more streamlined understanding of the actual
 tweet content.  Out of 66609 total tweets collected, this leaves 46892 to be
 analyzed.  Finally, all words are converted to lowercase before creating the
 final histogram.  This causes “WARRIORS” and “warriors” to be counted as the
-same term, further eliminating excess noise.  Except in the case of #Warriors
-(because the content of the hashtag is also the team name and important to the
-meaning of the histogram) the hashtags themselves are also excluded.  The
-result is a frequency distribution that minimizes noise and focuses on the
+same term, further eliminating excess noise. The end result is a frequency distribution that minimizes noise and focuses on the
 most meaningful set of words (those that are neither too frequent nor too
-rare). To ensure a representative but not overly cumbersome visualization, I chose to plot the top 50 most frequent words remaining after applying the exclusions mentioned above.
+rare). To ensure a representative but not overly cumbersome visualization, I chose to plot the top 50 most frequent words remaining after applying the exclusions mentioned above.  Lastly, in the case of #NBAFinals2015 histogram, I also excluded the hashtag itself, both to test the custom stop words exclusion functionality and to see how its removal improved the readability of the final plot. 
 
 ##Packages used
 ####Base Python:
