@@ -3,8 +3,8 @@
 ##Summary of Outputs
 - **listener.py**: Run this code first to process tweets from the twitter firehose for the relevant hashtags
 - **create_histograms.py**: Once tweets are gathered, this file is run to read through the chunked files created by listener.py and create frequency histograms of the top 50 most used terms
-- Three word frequency histograms for each type of tweet (#Warriors, #NBAFinals2015, and Both)
-- All chunked sets of tweets are stored in [this AWS bucket](https://s3-us-west-2.amazonaws.com/hamlin-mids-assignment2) 
+- Three word frequency histograms (saved as .png files) for each type of tweet (#Warriors, #NBAFinals2015, and Both)
+- All chunked sets of tweets are stored in [this AWS bucket](https://s3-us-west-2.amazonaws.com/hamlin-mids-assignment2).  For convenience, a file containing a list of direct links to each individual chunk (links_to_data.txt) is included in this repo as well.
 
 
 ##Program Design
@@ -13,8 +13,8 @@ gather tweets in realtime.  To do this, I used the Tweepy library’s
 StreamListener class to monitor the firehose for tweets that contained either
 the #NBAFinals2015 or #Warriors hashtag.  When a relevant tweet is found, the
 program checks which hashtag(s) it contains and appends it to one of three
-active json files (one for each hashtag, and another for tweets that contain
-both.
+active json files (one for each hashtag, and a third for tweets that contain
+both. Since the program gathers data in real-time and there was limited activity after the deluge of tweets surrounding the final game of the series, during office hours Luis confirmed that I didn’t need to let the program run for an additional several days after the fact and that the volume of tweets I gathered during this peak activity was sufficient.
 
 ##Chunking
 Tweets will be recorded in the same file until a threshold of 5000 tweets is
@@ -26,7 +26,7 @@ chunking by a particular time range) because we’re collecting live data from
 the firehose, not stored data for a chosen search query via the REST API.
 This means that it’s more critical to effectively deal with the high velocity
 and volume of information than it is to be able to rebuild a file for a
-particular date range, which would require a different implementation.
+particular date range, which would require a different implementation. For scalability purposes, the 5000 tweet threshold can be easily increased if larger size chunks are desired.
 
 ##Resilency
 This program takes several steps to ensure resiliency.  First, whenever an
@@ -41,7 +41,7 @@ in at a rate too fast for the firehose to allow unfettered access.  When this
 occurs, the program will note the issue in a log file and pause for 60 seconds
 before trying to reconnect.  Other important events are also tracked via a log
 file, including when transitions between chunks occur.  Each of these events
-is timestamped to facilitate debugging
+is timestamped to facilitate debugging.
 
 ##Word Frequency Histograms
 In creating word frequency histograms for each tweet corpus, the list of
@@ -58,7 +58,7 @@ same term, further eliminating excess noise.  Except in the case of #Warriors
 meaning of the histogram) the hashtags themselves are also excluded.  The
 result is a frequency distribution that minimizes noise and focuses on the
 most meaningful set of words (those that are neither too frequent nor too
-rare).
+rare). To ensure a representative but not overly cumbersome visualization, I chose to plot the top 50 most frequent words remaining after applying the exclusions mentioned above.
 
 ##Packages used
 ####Base Python:

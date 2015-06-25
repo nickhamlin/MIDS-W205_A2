@@ -58,4 +58,4 @@ if __name__=='__main__':
     process_tweets("#Warriors")
 
     
-#66609 tweets overall, 46892 to be analyzed
+#66609 tweets gathered overall, 46892 included in analysis
